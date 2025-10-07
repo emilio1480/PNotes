@@ -39,7 +39,7 @@ export default function Toolbar({ editor }: Readonly<{ editor: Editor }>) {
 	if (!editor) return null;
 
 	return (
-		<div className="flex flex-wrap gap-2">
+		<div className="flex flex-wrap space-x-3 justify-center mb-10">
 			<Tool onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editorState.canBold} isActive={editorState.isBold} name="Bold" />
 			<Tool onClick={() => editor.chain().focus().toggleItalic().run()} disabled={!editorState.canItalic} isActive={editorState.isItalic} name="Italic" />
 			<Tool onClick={() => editor.chain().focus().toggleStrike().run()} disabled={!editorState.canStrike} isActive={editorState.isStrike} name="Strike" />
