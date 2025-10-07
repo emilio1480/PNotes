@@ -1,9 +1,10 @@
 import TiptapEditor from "@/app/components/tiptapEditor";
 
-export default function Home() {
-  return (
-      <main className="p-10">
-          <TiptapEditor />
-      </main>
-  );
+export default async function Home() {
+    const res = await fetch("http://localhost:8080/getAllTitles");
+    const titles: string[] = await res.json();
+
+    return (
+        <p>main page</p>
+    );
 }

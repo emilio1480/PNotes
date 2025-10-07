@@ -7,33 +7,10 @@ import Toolbar from "./toolbar";
 
 const extensions = [TextStyleKit, StarterKit];
 
-export default function TipTapEditor() {
+export default function TipTapEditor({content}: {content: string}) {
 	const editor = useEditor({
 		extensions,
-		content: `
-<h2>
-  Hi there,
-</h2>
-<p>
-  this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-</p>
-<ul>
-  <li>
-    That’s a bullet list with one …
-  </li>
-  <li>
-    … or two list items.
-  </li>
-</ul>
-<p>
-  I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-</p>
-<blockquote>
-  Wow, that’s amazing. Good work! 👏
-  <br />
-  — Tiptap
-</blockquote>
-`,
+		content: JSON.parse(content),
 		immediatelyRender: false,
 		editorProps: {
 			attributes: {
@@ -41,9 +18,12 @@ export default function TipTapEditor() {
 			},
 		},
 	});
+
+    if(!editor) return null;
+
 	return (
 		<div>
-			{editor ? <Toolbar editor={editor} /> : null}
+			<Toolbar editor={editor} />
 			<EditorContent editor={editor} className={"max-w-none"} />
 		</div>
 	);
