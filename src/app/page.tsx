@@ -1,10 +1,8 @@
-import TiptapEditor from "@/app/components/tiptapEditor";
+import { getSubheadings } from "@/actions";
 
 export default async function Home() {
-    const res = await fetch("http://localhost:8080/getAllTitles");
-    const titles: string[] = await res.json();
-
+    const subheadings = await getSubheadings();
     return (
-        <p>main page</p>
+        <p>Main page</p>
     );
 }
