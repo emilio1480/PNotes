@@ -1,23 +1,17 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Quicksand } from "next/font/google";
 import "./globals.css";
 import SideMenu from "@/app/components/sideMenu";
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-});
+const quicksand = Quicksand({ weight: "variable" });
 
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
-});
+const sideMenuWidth = 64;
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang="en">
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-            <SideMenu/>
-				{children}
+			<body className={`${quicksand.className} antialiased`}>
+				<SideMenu className={`w-${sideMenuWidth}`} />
+				<div className={`ml-${sideMenuWidth}`}>{children}</div>
 			</body>
 		</html>
 	);
