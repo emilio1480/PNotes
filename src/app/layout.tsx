@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { getSubheadings } from "@/actions";
+import SideMenu from "@/app/components/sideMenu";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -16,9 +16,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 	return (
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <SideMenu/>
 				{children}
 			</body>
-
 		</html>
 	);
 }
