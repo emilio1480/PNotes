@@ -5,12 +5,12 @@ export interface Tool {
     disabled: boolean;
 }
 
-export interface Subheading {
+export interface Subtopic {
     title: string;
     content: string;
 }
 
-export interface ListSubheading {
+export interface ListSubtopic {
 	id: number;
 	title: string;
 	parentId: number;

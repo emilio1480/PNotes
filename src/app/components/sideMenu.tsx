@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import ListSubheadingComponent from "./listSubheadingComponent";
-import { ListSubheading } from "@/types";
+import ListSubtopicComponent from "./listSubtopicComponent";
+import { ListSubtopic } from "@/types";
 
-let subtopicList: ListSubheading[];
+let subtopicList: ListSubtopic[];
 
 function getChildren(parentId: number) {
-	return subtopicList.filter((item) => item.parent === parentId);
+	return subtopicList.filter((item) => item.parentId === parentId);
 }
 
 function hasChildren(id: number) {
-	return subtopicList.some((item) => item.parent === id);
+	return subtopicList.some((item) => item.parentId === id);
 }
 
 export default function SideMenu({
@@ -19,12 +19,12 @@ export default function SideMenu({
 	subtopics,
 }: Readonly<{
 	className?: string;
-	subtopics: ListSubheading[];
+	subtopics: ListSubtopic[];
 }>) {
 	const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
 	subtopicList = subtopics;
 
-	function toggleListSubheading(id: number) {
+	function toggleListSubtopic(id: number) {
 		setExpandedItems((prev) => {
 			const newSet = new Set(prev);
 			if (newSet.has(id)) {
@@ -36,23 +36,23 @@ export default function SideMenu({
 		});
 	}
 
-	function renderListSubheading(listSubheading: ListSubheading, depth: number = 0) {
-		const hasKids = hasChildren(listSubheading.id);
-		const isExpanded = expandedItems.has(listSubheading.id);
-		const children = getChildren(listSubheading.id);
+	function renderListSubtopic(listSubtopic: ListSubtopic, depth: number = 0) {
+		const hasKids = hasChildren(listSubtopic.id);
+		const isExpanded = expandedItems.has(listSubtopic.id);
+		const children = getChildren(listSubtopic.id);
 
 		return (
 			<div
-				key={listSubheading.id}
+				key={listSubtopic.id}
 				className="mb-1"
 				onClick={(e) => {
 					e.stopPropagation();
-					toggleListSubheading(listSubheading.id);
+					toggleListSubtopic(listSubtopic.id);
 				}}
 			>
-				<ListSubheadingComponent listSubheading={listSubheading} depth={depth} hasKids={hasKids} isExpanded={isExpanded} />
+				<ListSubtopicComponent listSubtopic={listSubtopic} depth={depth} hasKids={hasKids} isExpanded={isExpanded} />
 
-				{hasKids && isExpanded && <div>{children.map((child) => renderListSubheading(child, depth + 1))}</div>}
+				{hasKids && isExpanded && <div>{children.map((child) => renderListSubtopic(child, depth + 1))}</div>}
 			</div>
 		);
 	}
@@ -63,7 +63,7 @@ export default function SideMenu({
 		<div className={`fixed h-screen bg-gray-100 ${className}`}>
 			<div className="p-4">
 				<h2 className="mb-4 text-lg font-semibold text-gray-800">Menu</h2>
-				{rootItems.map((item) => renderListSubheading(item, 0))}
+				{rootItems.map((item) => renderListSubtopic(item, 0))}
 			</div>
 		</div>
 	);

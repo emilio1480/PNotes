@@ -1,15 +1,15 @@
 import { Quicksand } from "next/font/google";
 import "./globals.css";
 import SideMenu from "@/app/components/sideMenu";
-import { getSubheadings } from "@/actions";
-import { ListSubheading } from "@/types";
+import { getSubtopics } from "@/actions";
+import { ListSubtopic } from "@/types";
 
 const quicksand = Quicksand({ weight: "variable" });
 
 const sideMenuWidth = 64;
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-	const subtopics: ListSubheading[] = await getSubheadings();
+	const subtopics: ListSubtopic[] = await getSubtopics();
 
 	return (
 		<html lang="en">

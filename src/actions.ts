@@ -4,7 +4,7 @@ export async function getSubtopic(id: string) {
 	return res.json();
 }
 
-export async function getSubheadings() {
+export async function getSubtopics() {
 	const res = await fetch("http://localhost:8080/subtopics");
 	return res.json();
 }

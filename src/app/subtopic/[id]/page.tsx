@@ -1,7 +1,7 @@
 import TipTapEditor from "@/app/components/tiptapEditor";
 import { getSubtopic } from "@/actions";
 
-export default async function Subheading({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
+export default async function Subtopic({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
 	const { id } = await params;
 	const subtopic = await getSubtopic(id);
 
