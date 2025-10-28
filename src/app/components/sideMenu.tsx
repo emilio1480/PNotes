@@ -4,32 +4,25 @@ import React, { useState } from "react";
 import ListSubheadingComponent from "./listSubheadingComponent";
 import { ListSubheading } from "@/types";
 
-const sampleData: ListSubheading[] = [
-	{ id: 1, title: "Getting Started", parent: 0 },
-	{ id: 2, title: "Introduction", parent: 1 },
-	{ id: 3, title: "Installation", parent: 1 },
-	{ id: 4, title: "Configuration", parent: 1 },
-	{ id: 5, title: "Core Concepts", parent: 0 },
-	{ id: 6, title: "Components", parent: 5 },
-	{ id: 7, title: "Props", parent: 5 },
-	{ id: 8, title: "State Management", parent: 5 },
-	{ id: 9, title: "Advanced Topics", parent: 0 },
-	{ id: 10, title: "Routing", parent: 9 },
-	{ id: 11, title: "API Integration", parent: 9 },
-	{ id: 12, title: "API Integration", parent: 4 },
-	{ id: 13, title: "API Integration", parent: 12 },
-];
+let subtopicList: ListSubheading[];
 
 function getChildren(parentId: number) {
-	return sampleData.filter((item) => item.parent === parentId);
+	return subtopicList.filter((item) => item.parent === parentId);
 }
 
 function hasChildren(id: number) {
-	return sampleData.some((item) => item.parent === id);
+	return subtopicList.some((item) => item.parent === id);
 }
 
-export default function SideMenu({ className }: { className?: string }) {
+export default function SideMenu({
+	className,
+	subtopics,
+}: Readonly<{
+	className?: string;
+	subtopics: ListSubheading[];
+}>) {
 	const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
+	subtopicList = subtopics;
 
 	function toggleListSubheading(id: number) {
 		setExpandedItems((prev) => {
