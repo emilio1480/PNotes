@@ -6,20 +6,12 @@ export interface Tool {
 }
 
 export interface Subheading {
-    id: number;
     title: string;
     content: string;
-    parent: ParentSubtopic;
-	subheadings: Subheading[];
 }
 
 export interface ListSubheading {
 	id: number;
 	title: string;
-	parent: number;
-}
-
-export interface ParentSubtopic {
-    id: number;
-    title: string;
+	parentId: number;
 }
