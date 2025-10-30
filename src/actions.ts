@@ -1,10 +1,14 @@
+"use server";
 import { redirect } from "next/navigation";
 
 export async function getSubtopic(id: string) {
 	const res = await fetch(`http://localhost:8080/subtopics/${id}`, {
 		cache: "no-store",
 	});
-	if (!res.ok) throw new Error("Failed fetching subtopic");
+	if (!res.ok) {
+		alert("Failed fetching subtopics");
+		return;
+	}
 	return res.json();
 }
 
@@ -18,12 +22,19 @@ export async function getSubtopics() {
 export async function addSubtopic(formData: FormData) {
 	const res = await fetch(`http://localhost:8080/subtopics/${formData.get("parentId")}`, {
 		method: "POST",
-		body: formData.get("content"),
+		body: JSON.stringify({
+			title: formData.get("title"),
+			content: formData.get("content"),
+		}),
 	});
 
-	if (!res.ok) throw new Error("Failed to update subtopic");
+	const resData = await res.json();
 
-	const newId = await res.json();
+	if (!res.ok) {
+		alert(resData.message);
+	}
+
+	const newId = resData;
 
 	redirect(`/subtopics/${newId}`);
 }
@@ -31,10 +42,17 @@ export async function addSubtopic(formData: FormData) {
 export async function updateSubtopic(formData: FormData) {
 	const res = await fetch(`http://localhost:8080/subtopics/${formData.get("id")}`, {
 		method: "PATCH",
-		body: formData.get("content"),
+		body: JSON.stringify({
+			title: formData.get("title"),
+			content: formData.get("content"),
+		}),
 	});
 
-	if (!res.ok) throw new Error("Failed to update subtopic");
+	const resData = await res.json();
+
+	if (!res.ok) {
+		alert(resData.message);
+	}
 
 	redirect(`http://localhost:8080/subtopics/${formData.get("id")}`);
 }
