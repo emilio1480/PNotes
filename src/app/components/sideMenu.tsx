@@ -67,7 +67,11 @@ export default function SideMenu({
 					{rootItems.map((item) => renderListSubtopic(item, 0))}
 				</div>
 			</div>
-			<RedirectButton id={null} className={"fixed bottom-4 left-9 z-10 w-43 rounded-lg bg-orange-800 text-white hover:cursor-pointer hover:bg-orange-900"} text={"Shto nje teme te re"} />
+			<RedirectButton
+				id={null}
+				className={"fixed bottom-4 left-9 z-10 w-43 rounded-lg bg-blue-400 text-white transition-all ease-out hover:cursor-pointer hover:bg-blue-500"}
+				text={"Shto nje teme te re"}
+			/>
 		</>
 	);
 }
