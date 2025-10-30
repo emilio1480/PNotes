@@ -35,7 +35,7 @@ export default function TipTapEditor({
 }>) {
 	const editor = useEditor({
 		extensions,
-		content: JSON.parse(content || "{}"),
+		content: JSON.parse(content || '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"----- Shkruani ketu -----"}]}]}'),
 		immediatelyRender: false,
 		editorProps: {
 			attributes: {
@@ -83,7 +83,7 @@ export default function TipTapEditor({
 				<input type={"hidden"} name={"content"} value="" />
 				<input className={"hover:cursor-pointer"} type={"hidden"} name={ifAddingSubtopic ? "parentId" : "id"} value={parentId} />
 				<input
-					className={"fixed bottom-4 z-10 ml-[50%] w-40 -translate-x-1/2 rounded-2xl bg-yellow-500 font-[500] text-white hover:cursor-pointer hover:bg-yellow-600"}
+					className={"fixed bottom-4 z-10 ml-[50%] w-40 -translate-x-1/2 rounded-lg bg-yellow-500 font-[500] text-white hover:cursor-pointer hover:bg-yellow-600"}
 					type={"submit"}
 					value={"Siguro ndryshimet"}
 				/>
