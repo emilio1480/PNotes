@@ -6,8 +6,21 @@ import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./toolbar";
 import {addSubtopic, updateSubtopic} from "@/actions";
 import {useState} from "react";
+import {Table} from '@tiptap/extension-table'
+import TableRow from '@tiptap/extension-table-row'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
 
-const extensions = [TextStyleKit, StarterKit];
+const extensions = [
+    StarterKit,
+    TextStyleKit,
+    Table.configure({
+        resizable: false,
+    }),
+    TableRow,
+    TableHeader,
+    TableCell,
+]
 
 export default function TipTapEditor({
                                          content,
@@ -52,7 +65,7 @@ export default function TipTapEditor({
             <form action={handleSubmit}>
                 <Toolbar editor={editor}/>
                 <input
-                    className={'w-full text-center mb-5 text-2xl'}
+                    className={'w-full text-center mb-5 text-2xl focus:outline-none'}
                     type={"text"}
                     name={"title"}
                     onChange={(e) => setNewTitle(e.target.value)}
@@ -66,16 +79,19 @@ export default function TipTapEditor({
                     value=""
                 />
                 <input
+                    className={"hover:cursor-pointer"}
                     type={"hidden"}
                     name={ifAddingSubtopic ? "parentId" : "id"}
                     value={parentId}
                 />
                 <input
-                    className={'bg-gray'}
+                    className={"z-10 fixed bottom-4 border-1 rounded-2xl w-42 bg-green-500 text-white hover:bg-green-600 hover:cursor-pointer mx-[50%] -translate-x-1/2"}
                     type={"submit"}
-                    value={ifAddingSubtopic ? "Shtoni nentemen" : "Siguroni ndryshimet"}
+                    value={"Siguroni ndryshimet"}
                 />
             </form>
+
+            <div className={"fixed bottom-0 h-15 w-full border-t-1 border-gray-100 bg-white"}/>
         </div>
     );
 }

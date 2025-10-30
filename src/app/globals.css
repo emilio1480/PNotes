@@ -4,3 +4,16 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer components {
+    .ProseMirror table {
+        @apply w-full border-collapse table-fixed;
+    }
+    .ProseMirror td,
+    .ProseMirror th {
+        @apply border border-gray-300 p-2 align-top;
+    }
+    .ProseMirror th {
+        @apply bg-gray-100 font-semibold;
+    }
+}
