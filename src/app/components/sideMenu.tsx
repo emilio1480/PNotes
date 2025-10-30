@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import ListSubtopicComponent from "./listSubtopicComponent";
 import { ListSubtopic } from "@/types";
+import RedirectButton from "@/app/[id]/redirectButton";
 
 export default function SideMenu({
 	className,
@@ -13,15 +14,15 @@ export default function SideMenu({
 }>) {
 	const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
 
-    const subtopicList: ListSubtopic[] = subtopics;
+	const subtopicList: ListSubtopic[] = subtopics;
 
-    function getChildren(parentId: number | null) {
-        return subtopicList.filter((item) => item.parentId === parentId);
-    }
+	function getChildren(parentId: number | null) {
+		return subtopicList.filter((item) => item.parentId === parentId);
+	}
 
-    function hasChildren(id: number) {
-        return subtopicList.some((item) => item.parentId === id);
-    }
+	function hasChildren(id: number) {
+		return subtopicList.some((item) => item.parentId === id);
+	}
 
 	function toggleListSubtopic(id: number) {
 		setExpandedItems((prev) => {
@@ -59,11 +60,14 @@ export default function SideMenu({
 	const rootItems = getChildren(null);
 
 	return (
-		<div className={`fixed h-screen bg-gray-100 ${className}`}>
-			<div className="p-4">
-				<h2 className="mb-4 text-lg font-semibold text-gray-800">Menu</h2>
-				{rootItems.map((item) => renderListSubtopic(item, 0))}
+		<>
+			<div className={`fixed h-screen bg-gray-100 ${className}`}>
+				<div className="p-4">
+					<h2 className="mb-4 text-lg font-semibold text-gray-800">Menu</h2>
+					{rootItems.map((item) => renderListSubtopic(item, 0))}
+				</div>
 			</div>
-		</div>
+			<RedirectButton id={null} className={"fixed bottom-4 left-9 z-10 w-43 rounded-2xl bg-orange-800 text-white hover:cursor-pointer hover:bg-orange-900"} text={"Shto nje teme te re"} />
+		</>
 	);
 }

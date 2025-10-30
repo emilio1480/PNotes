@@ -6,7 +6,7 @@ export async function getSubtopic(id: string) {
 		cache: "no-store",
 	});
 	if (!res.ok) {
-		alert("Failed fetching subtopics");
+		console.log("FAILED");
 		return;
 	}
 	return res.json();
@@ -22,9 +22,9 @@ export async function getSubtopics() {
 export async function addSubtopic(formData: FormData) {
 	const res = await fetch(`http://localhost:8080/subtopics/${formData.get("parentId")}`, {
 		method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+		headers: {
+			"Content-Type": "application/json",
+		},
 		body: JSON.stringify({
 			title: formData.get("title"),
 			content: formData.get("content"),
@@ -33,20 +33,16 @@ export async function addSubtopic(formData: FormData) {
 
 	const resData = await res.text();
 
-	if (!res.ok) {
-		console.log("failed");
-	}
-
 	redirect(`/${resData}`);
 }
 
 export async function updateSubtopic(formData: FormData) {
-    const id = formData.get("id");
+	const id = formData.get("id");
 
-	const res = await fetch(`http://localhost:8080/subtopics/${id}`, {
-        headers: {
-            "Content-Type": "application/json"
-        },
+	await fetch(`http://localhost:8080/subtopics/${id}`, {
+		headers: {
+			"Content-Type": "application/json",
+		},
 		method: "PATCH",
 		body: JSON.stringify({
 			title: formData.get("title"),
@@ -54,9 +50,22 @@ export async function updateSubtopic(formData: FormData) {
 		}),
 	});
 
-	if (!res.ok) {
-		console.log("Failed");
-	}
+	redirect(`http://localhost:3000/${id}`);
+}
 
-	redirect(`http://localhost:3000/${formData.get("id")}`);
+export async function addRootSubtopic(formData: FormData) {
+	const res = await fetch(`http://localhost:8080/subtopics`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			title: formData.get("title"),
+			content: formData.get("content"),
+		}),
+	});
+
+	const resData = await res.text();
+
+	redirect(`/${resData}`);
 }
