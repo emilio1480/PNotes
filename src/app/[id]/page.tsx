@@ -8,7 +8,7 @@ export default async function Subtopic({ params }: Readonly<{ params: Promise<{ 
 
 	return (
 		<div>
-			<TipTapEditor content={subtopic.content} title={subtopic.title} ifAddingSubtopic={false} />
+			<TipTapEditor parentId={id} content={subtopic.content} title={subtopic.title} ifAddingSubtopic={false} />
 			<Button id={id} />
 		</div>
 	);

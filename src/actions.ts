@@ -22,25 +22,31 @@ export async function getSubtopics() {
 export async function addSubtopic(formData: FormData) {
 	const res = await fetch(`http://localhost:8080/subtopics/${formData.get("parentId")}`, {
 		method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
 		body: JSON.stringify({
 			title: formData.get("title"),
 			content: formData.get("content"),
 		}),
 	});
 
-	const resData = await res.json();
+	const resData = await res.text();
 
 	if (!res.ok) {
-		alert(resData.message);
+		console.log("failed");
 	}
 
-	const newId = resData;
-
-	redirect(`/subtopics/${newId}`);
+	redirect(`/${resData}`);
 }
 
 export async function updateSubtopic(formData: FormData) {
-	const res = await fetch(`http://localhost:8080/subtopics/${formData.get("id")}`, {
+    const id = formData.get("id");
+
+	const res = await fetch(`http://localhost:8080/subtopics/${id}`, {
+        headers: {
+            "Content-Type": "application/json"
+        },
 		method: "PATCH",
 		body: JSON.stringify({
 			title: formData.get("title"),
@@ -48,11 +54,9 @@ export async function updateSubtopic(formData: FormData) {
 		}),
 	});
 
-	const resData = await res.json();
-
 	if (!res.ok) {
-		alert(resData.message);
+		console.log("Failed");
 	}
 
-	redirect(`http://localhost:8080/subtopics/${formData.get("id")}`);
+	redirect(`http://localhost:3000/${formData.get("id")}`);
 }

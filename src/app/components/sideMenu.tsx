@@ -4,16 +4,6 @@ import React, { useState } from "react";
 import ListSubtopicComponent from "./listSubtopicComponent";
 import { ListSubtopic } from "@/types";
 
-let subtopicList: ListSubtopic[];
-
-function getChildren(parentId: number) {
-	return subtopicList.filter((item) => item.parentId === parentId);
-}
-
-function hasChildren(id: number) {
-	return subtopicList.some((item) => item.parentId === id);
-}
-
 export default function SideMenu({
 	className,
 	subtopics,
@@ -22,7 +12,16 @@ export default function SideMenu({
 	subtopics: ListSubtopic[];
 }>) {
 	const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
-	subtopicList = subtopics;
+
+    const subtopicList: ListSubtopic[] = subtopics;
+
+    function getChildren(parentId: number | null) {
+        return subtopicList.filter((item) => item.parentId === parentId);
+    }
+
+    function hasChildren(id: number) {
+        return subtopicList.some((item) => item.parentId === id);
+    }
 
 	function toggleListSubtopic(id: number) {
 		setExpandedItems((prev) => {
@@ -57,7 +56,7 @@ export default function SideMenu({
 		);
 	}
 
-	const rootItems = getChildren(0);
+	const rootItems = getChildren(null);
 
 	return (
 		<div className={`fixed h-screen bg-gray-100 ${className}`}>

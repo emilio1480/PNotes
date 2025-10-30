@@ -13,5 +13,5 @@ export interface Subtopic {
 export interface ListSubtopic {
 	id: number;
 	title: string;
-	parentId: number;
+	parentId: number | null;
 }
