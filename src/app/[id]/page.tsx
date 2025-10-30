@@ -1,15 +1,15 @@
 import TipTapEditor from "@/app/components/tiptapEditor";
 import { getSubtopic } from "@/actions";
-import { redirect } from "next/navigation";
+import Button from "@/app/[id]/redirectButton";
 
 export default async function Subtopic({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
 	const { id } = await params;
 	const subtopic = await getSubtopic(id);
 
 	return (
-		<>
+		<div>
 			<TipTapEditor content={subtopic.content} title={subtopic.title} ifAddingSubtopic={false} />
-			<button onClick={redirect(`/subtopic/${id}/saveSubtopic`)}>Shto nenteme</button>
-		</>
+			<Button id={id} />
+		</div>
 	);
 }
