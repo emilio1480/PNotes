@@ -6,16 +6,15 @@ import { ListSubtopic } from "@/types";
 
 const quicksand = Quicksand({ weight: "variable" });
 
-const sideMenuWidth = 64;
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	const subtopics: ListSubtopic[] = await getSubtopics();
 
 	return (
 		<html lang="en">
-			<body className={`${quicksand.className} antialiased`}>
-				<SideMenu subtopics={subtopics} className={`w-${sideMenuWidth}`} />
-				<div className={`ml-${sideMenuWidth}`}>{children}</div>
+			<body className={`${quicksand.className} antialiased` }>
+				<SideMenu subtopics={subtopics} className={`w-1/6`} />
+				<div className={`ml-[16.66%] w-5/6`}>{children}</div>
 			</body>
 		</html>
 	);
