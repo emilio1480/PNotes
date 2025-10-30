@@ -69,3 +69,9 @@ export async function addRootSubtopic(formData: FormData) {
 
 	redirect(`/${resData}`);
 }
+
+export async function deleteSubtopic(id: string) {
+	await fetch(`http://localhost:8080/subtopics/${id}`, {
+		method: "DELETE",
+	});
+}
