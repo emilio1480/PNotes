@@ -67,7 +67,9 @@ export default function TipTapEditor({
 			}
 		}catch (err){
 			const error = err as Error;
-			toast.error(error.message);
+			if (error.message !== "NEXT_REDIRECT") {
+				toast.error(error.message);
+			}
 		}
 	};
 
