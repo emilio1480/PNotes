@@ -10,6 +10,7 @@ import { Table } from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
+import toast, { Toaster } from "react-hot-toast";
 
 const extensions = [
 	StarterKit,
@@ -53,21 +54,26 @@ export default function TipTapEditor({
 
 		formData.set("content", editorContent);
 
-		console.log("parentId", parentId);
-		if (parentId == "null") {
-			await addRootSubtopic(formData);
-			return;
-		}
+		try {
+			if (parentId == "null") {
+				await addRootSubtopic(formData);
+				return;
+			}
 
-		if (ifAddingSubtopic) {
-			await addSubtopic(formData);
-		} else {
-			await updateSubtopic(formData);
+			if (ifAddingSubtopic) {
+				await addSubtopic(formData);
+			} else {
+				await updateSubtopic(formData);
+			}
+		}catch (err){
+			const error = err as Error;
+			toast.error(error.message);
 		}
 	};
 
 	return (
 		<div>
+			<Toaster/>
 			<form action={handleSubmit}>
 				<Toolbar editor={editor} />
 				<input

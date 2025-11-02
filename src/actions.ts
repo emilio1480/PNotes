@@ -2,21 +2,32 @@
 import { redirect } from "next/navigation";
 
 export async function getSubtopic(id: string) {
-	const res = await fetch(`http://localhost:8080/subtopics/${id}`, {
-		cache: "no-store",
-	});
-	if (!res.ok) {
-		console.log("FAILED");
-		return;
-	}
-	return res.json();
+		const res = await fetch(`http://localhost:8080/subtopics/${id}`, {
+			cache: "no-store",
+		});
+
+		const data = await res.json();
+
+		if (!res.ok) {
+			throw new Error(data.message)
+		}
+
+		return data;
+
 }
 
 export async function getSubtopics() {
 	const res = await fetch("http://localhost:8080/subtopics", {
 		cache: "no-store",
 	});
-	return res.json();
+
+	const data = await res.json();
+
+	if (!res.ok) {
+		throw new Error(data.message)
+	}
+
+	return data;
 }
 
 export async function addSubtopic(formData: FormData) {
@@ -31,15 +42,20 @@ export async function addSubtopic(formData: FormData) {
 		}),
 	});
 
-	const resData = await res.text();
+	if (!res.ok) {
+		const data = await res.json();
+		throw new Error(data.message)
+	}
 
-	redirect(`/${resData}`);
+	const data = await res.text();
+
+	redirect(`/${data}`);
 }
 
 export async function updateSubtopic(formData: FormData) {
 	const id = formData.get("id");
 
-	await fetch(`http://localhost:8080/subtopics/${id}`, {
+	const res = await fetch(`http://localhost:8080/subtopics/${id}`, {
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -50,7 +66,10 @@ export async function updateSubtopic(formData: FormData) {
 		}),
 	});
 
-	redirect(`http://localhost:3000/${id}`);
+	if (!res.ok) {
+		const data = await res.json();
+		throw new Error(data.message)
+	};
 }
 
 export async function addRootSubtopic(formData: FormData) {
@@ -65,13 +84,25 @@ export async function addRootSubtopic(formData: FormData) {
 		}),
 	});
 
-	const resData = await res.text();
+	if (!res.ok) {
+		const data = await res.json();
+		throw new Error(data.message)
+	}
 
-	redirect(`/${resData}`);
+	const data = await res.text();
+
+	redirect(`/${data}`);
 }
 
 export async function deleteSubtopic(id: string) {
-	await fetch(`http://localhost:8080/subtopics/${id}`, {
+	const res = await fetch(`http://localhost:8080/subtopics/${id}`, {
 		method: "DELETE",
 	});
+
+	if (!res.ok) {
+		const data = await res.json();
+		throw new Error(data.message)
+	}
+
+	redirect("/")
 }
