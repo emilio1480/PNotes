@@ -1,79 +1,78 @@
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+// components/LoginForm.tsx
+'use client';
 
-export default function Login() {
-	const router = useRouter();
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-	const [error, setError] = useState("");
+import { useState } from 'react';
+import { authService } from "@/authService";
+
+export default function LoginForm() {
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		setError("");
+		setError('');
 		setLoading(true);
 
 		try {
-			const res = await fetch("http://localhost:8080/login", {
-				method: "POST",
-				headers: { "Content-Type": "application/x-www-form-urlencoded" },
-				body: new URLSearchParams({ username, password }),
-				credentials: "include", // very important for JSESSIONID cookie
-			});
-
-			if (res.ok) {
-				router.push("/");
-			} else {
-				alert("Vendosni te dhenat e sakta")
-				setError("Invalid username or password");
-			}
-		} catch (err) {
-			console.error(err);
-			alert("Ju lutem vendosni te dhenat e sakta");
-			setError("Something went wrong. Please try again.");
+			const result = await authService.login({ username, password });
+			console.log('Login successful:', result);
+			// Redirect to dashboard or refresh the page
+			window.location.href = '/';
+		} catch (error) {
+			const err = error as Error;
+			setError(err.message || 'Login failed');
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	return (
-		<div className="flex min-h-screen items-center justify-center bg-gray-100">
-			<form onSubmit={handleSubmit} className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-md">
-				<h1 className="mb-6 text-center text-2xl font-bold text-gray-700">Login</h1>
+		<div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+			<h2 className="text-2xl font-bold mb-6">Login</h2>
 
-				{error && <div className="mb-4 rounded bg-red-100 p-2 text-red-700">{error}</div>}
+			{error && (
+				<div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+					{error}
+				</div>
+			)}
 
+			<form onSubmit={handleSubmit}>
 				<div className="mb-4">
-					<label className="mb-1 block text-gray-600" htmlFor="username">
+					<label htmlFor="username" className="block text-sm font-medium mb-2">
 						Username
 					</label>
 					<input
-						id="username"
 						type="text"
+						id="username"
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
+						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 						required
-						className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none"
 					/>
 				</div>
 
 				<div className="mb-6">
-					<label className="mb-1 block text-gray-600" htmlFor="password">
+					<label htmlFor="password" className="block text-sm font-medium mb-2">
 						Password
 					</label>
 					<input
-						id="password"
 						type="password"
+						id="password"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
+						className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 						required
-						className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring focus:ring-blue-200 focus:outline-none"
 					/>
 				</div>
 
-				<button type="submit" disabled={loading} className="w-full rounded-lg bg-blue-600 py-2 text-white transition hover:bg-blue-700 disabled:opacity-60">
-					{loading ? "Logging in..." : "Login"}
+				<button
+					type="submit"
+					disabled={loading}
+					className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+				>
+					{loading ? 'Logging in...' : 'Login'}
 				</button>
 			</form>
 		</div>

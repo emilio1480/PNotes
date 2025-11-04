@@ -9,7 +9,7 @@ export default async function Subtopic({ params }: Readonly<{ params: Promise<{ 
 
 	return (
 		<div>
-			<TipTapEditor parentId={id} content={subtopic.content} title={subtopic.title} ifAddingSubtopic={false} />
+			<TipTapEditor id={id} content={subtopic.content} title={subtopic.title} ifAddingSubtopic={false} />
 			<RedirectButton
 				id={id}
 				text={"Shto nje neteme te re"}

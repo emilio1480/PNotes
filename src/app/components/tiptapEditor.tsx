@@ -26,12 +26,12 @@ const extensions = [
 export default function TipTapEditor({
 	content,
 	title,
-	parentId,
+	id,
 	ifAddingSubtopic,
 }: Readonly<{
 	content?: string;
 	title?: string;
-	parentId: string;
+	id: string;
 	ifAddingSubtopic?: boolean;
 }>) {
 	const editor = useEditor({
@@ -44,7 +44,6 @@ export default function TipTapEditor({
 			},
 		},
 	});
-
 	const [newTitle, setNewTitle] = useState(title);
 
 	if (!editor) return null;
@@ -55,7 +54,7 @@ export default function TipTapEditor({
 		formData.set("content", editorContent);
 
 		try {
-			if (parentId == "null") {
+			if (id == "null") {
 				await addRootSubtopic(formData);
 				return;
 			}
@@ -65,7 +64,7 @@ export default function TipTapEditor({
 			} else {
 				await updateSubtopic(formData);
 			}
-		}catch (err){
+		} catch (err) {
 			const error = err as Error;
 			if (error.message !== "NEXT_REDIRECT") {
 				toast.error(error.message);
@@ -75,13 +74,13 @@ export default function TipTapEditor({
 
 	return (
 		<div>
-			<Toaster/>
+			<Toaster />
 			<form action={handleSubmit}>
 				<Toolbar editor={editor} />
+
 				<input
 					className={"mb-5 w-full text-center text-2xl focus:outline-none"}
 					autoComplete={"off"}
-					type={"text"}
 					name={"title"}
 					onChange={(e) => setNewTitle(e.target.value)}
 					value={newTitle}
@@ -89,7 +88,9 @@ export default function TipTapEditor({
 				/>
 				<EditorContent editor={editor} className={"max-w-none"} />
 				<input type={"hidden"} name={"content"} value="" />
-				<input className={"hover:cursor-pointer"} type={"hidden"} name={ifAddingSubtopic ? "parentId" : "id"} value={parentId} />
+				<input type={"hidden"} name={"id"} value={id} />
+				<input type={"hidden"} name={"ifAddingSubtopic"} value={`${ifAddingSubtopic}`} />
+
 				<input
 					className={"fixed bottom-4 z-10 ml-[50%] w-40 -translate-x-1/2 rounded-lg bg-yellow-500 font-[500] text-white transition-all ease-out hover:cursor-pointer hover:bg-yellow-600"}
 					type={"submit"}

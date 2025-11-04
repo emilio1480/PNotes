@@ -15,3 +15,8 @@ export interface ListSubtopic {
 	title: string;
 	parentId: number | null;
 }
+
+export interface User{
+	username:string,
+	password:string,
+}
