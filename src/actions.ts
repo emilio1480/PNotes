@@ -1,20 +1,28 @@
 "use server";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
-import { authService } from "@/authService";
+import { auth } from "./auth";
+
+const API_ORIGIN = process.env.API_ORIGIN!
+
+async function secureRequest(endpoint: string, options: RequestInit = {}) {
+	const session = await auth();
+try{
+	return await fetch(`${API_ORIGIN}${endpoint}`, {
+		...options,
+		headers: { Authorization: `Bearer ${session?.id_token}`, "Content-Type": "application/json"},
+	});
+}catch {
+	return new Response('"message": "Fetch didn\'t go through"', {status: 500});
+	}
+}
 
 export async function getSubtopic(id: string) {
-	const cookieStore = await cookies();
-	const cookie = cookieStore.get("JSESSIONID");
-
-	const res = await authService.apiRequest(
+	const res = await secureRequest(
 		`/subtopics/${id}`,
 		{
 			cache: "no-store",
 		},
-		cookie?.value
 	);
-
 	const data = await res.json();
 
 	if (!res.ok) {
@@ -25,14 +33,11 @@ export async function getSubtopic(id: string) {
 }
 
 export async function getSubtopics() {
-	const cookieStore = await cookies();
-	const cookie = cookieStore.get("JSESSIONID");
-	const res = await authService.apiRequest(
+	const res = await secureRequest(
 		"/subtopics",
 		{
 			cache: "no-store",
 		},
-		cookie?.value
 	);
 
 	if (!res.ok) {
@@ -43,9 +48,7 @@ export async function getSubtopics() {
 }
 
 export async function addSubtopic(formData: FormData) {
-	const cookieStore = await cookies();
-	const cookie = cookieStore.get("JSESSIONID");
-	const res = await authService.apiRequest(
+	const res = await secureRequest(
 		`/subtopics/${formData.get("id")}`,
 		{
 			method: "POST",
@@ -54,13 +57,13 @@ export async function addSubtopic(formData: FormData) {
 				content: formData.get("content"),
 			}),
 		},
-		cookie?.value
 	);
 
 	if (!res.ok) {
 		const data = await res.json();
 		throw new Error(data.message);
 	}
+
 	const data = await res.text();
 
 	redirect(`/${data}`);
@@ -69,9 +72,7 @@ export async function addSubtopic(formData: FormData) {
 export async function updateSubtopic(formData: FormData) {
 	const id = formData.get("id");
 
-	const cookieStore = await cookies();
-	const cookie = cookieStore.get("JSESSIONID");
-	const res = await authService.apiRequest(
+	const res = await secureRequest(
 		`/subtopics/${id}`,
 		{
 			method: "PATCH",
@@ -79,8 +80,7 @@ export async function updateSubtopic(formData: FormData) {
 				title: formData.get("title"),
 				content: formData.get("content"),
 			}),
-		},
-		cookie?.value
+		}
 	);
 
 	if (!res.ok) {
@@ -90,9 +90,7 @@ export async function updateSubtopic(formData: FormData) {
 }
 
 export async function addRootSubtopic(formData: FormData) {
-	const cookieStore = await cookies();
-	const cookie = cookieStore.get("JSESSIONID");
-	const res = await authService.apiRequest(
+	const res = await secureRequest(
 		`/subtopics`,
 		{
 			method: "POST",
@@ -101,7 +99,6 @@ export async function addRootSubtopic(formData: FormData) {
 				content: formData.get("content"),
 			}),
 		},
-		cookie?.value
 	);
 
 	if (!res.ok) {
@@ -114,14 +111,11 @@ export async function addRootSubtopic(formData: FormData) {
 }
 
 export async function deleteSubtopic(id: string) {
-	const cookieStore = await cookies();
-	const cookie = cookieStore.get("JSESSIONID");
-	const res = await authService.apiRequest(
+	const res = await secureRequest(
 		`/subtopics/${id}`,
 		{
 			method: "DELETE",
 		},
-		cookie?.value
 	);
 
 	if (!res.ok) {
