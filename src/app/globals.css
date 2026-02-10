@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@plugin 'tailwind-scrollbar';
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -54,4 +55,13 @@ body {
 .ProseMirror.resize-cursor {
     cursor: ew-resize;
     cursor: col-resize;
+}
+
+@theme {
+    --color-primary: #bc6c25;
+    --color-primary-light: #ce812b;
+    --color-secondary: #dda15e;
+    --color-tertiary: #fefae0;
+    --color-quaternary: #912623;
+    --color-quaternary-light: #a52b28;
 }
