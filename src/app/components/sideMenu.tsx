@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import ListSubtopicComponent from "./listSubtopicComponent";
 import { ListSubtopic } from "@/types";
-import RedirectButton from "@/app/[id]/redirectButton";
+import AddSubtopicButton from "@/app/components/addSubtopicButton";
+import { MoveLeft, MoveRight } from "lucide-react";
 
 export default function SideMenu({
 	className,
@@ -12,6 +13,7 @@ export default function SideMenu({
 	className?: string;
 	subtopics: ListSubtopic[];
 }>) {
+	const [isCollapse, setIsCollapse] = useState(false);
 	const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
 
 	const subtopicList: ListSubtopic[] = subtopics;
@@ -60,18 +62,21 @@ export default function SideMenu({
 	const rootItems = getChildren(null);
 
 	return (
-		<>
-			<div className={`fixed h-screen bg-gray-100 ${className}`}>
-				<div className="p-4">
-					<h2 className="mb-4 text-lg font-semibold text-gray-800">Menu</h2>
-					{rootItems.map((item) => renderListSubtopic(item, 0))}
+		<div className={`flex h-screen flex-col justify-between bg-gray-100 ${className}`}>
+			<div className="p-4">
+				<div className={`flex justify-start ${isCollapse ? "space-x-0" : "space-x-3"} mb-4 items-center`}>
+					<h2 className="text-lg font-semibold text-gray-800">{!isCollapse && "Menu"}</h2>
+					<button className={"h-max w-max hover:cursor-pointer hover:text-gray-500"} onClick={() => setIsCollapse(!isCollapse)}>
+						{isCollapse ? <MoveRight /> : <MoveLeft />}
+					</button>
 				</div>
+				{isCollapse ? null : rootItems.map((item) => renderListSubtopic(item, 0))}
 			</div>
-			<RedirectButton
+			<AddSubtopicButton
 				id={null}
-				className={"fixed bottom-4 left-9 z-10 w-43 rounded-lg bg-blue-400 text-white transition-all ease-out hover:cursor-pointer hover:bg-blue-500"}
-				text={"Shto nje teme te re"}
+				className={"z-10 w-full bg-gray-300 p-2 text-gray-700 transition-all ease-out hover:cursor-pointer hover:bg-gray-600 hover:text-gray-100"}
+				text={isCollapse ? undefined : "Add a topic"}
 			/>
-		</>
+		</div>
 	);
 }

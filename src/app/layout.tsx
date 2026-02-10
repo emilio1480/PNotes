@@ -3,7 +3,6 @@ import "./globals.css";
 import SideMenu from "@/app/components/sideMenu";
 import { getSubtopics } from "@/actions";
 import { ListSubtopic } from "@/types";
-import LogoutButton from "@/app/components/logoutButton";
 
 const quicksand = Quicksand({ weight: "variable" });
 
@@ -12,11 +11,10 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 	console.log(subtopics);
 
 	return (
-		<html lang="en">
-			<body className={`${quicksand.className} antialiased`}>
-				{subtopics != null && <SideMenu subtopics={subtopics} className={`w-1/6`} />}
-				<div className={`${subtopics ? "ml-[16.66%] w-5/6" : "w-full"}`}>{children}</div>
-				{subtopics != null && <LogoutButton/>}
+		<html lang="en" className={"h-full overflow-hidden"}>
+			<body className={`${quicksand.className} antialiased flex justify-between`}>
+				{subtopics != null && <SideMenu subtopics={subtopics} className={`w-max max-w-2/9`} />}
+				<div className={`w-full`}>{children}</div>
 			</body>
 		</html>
 	);
