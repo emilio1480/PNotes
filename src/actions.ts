@@ -1,6 +1,6 @@
 "use server";
 import { redirect } from "next/navigation";
-import { auth } from "./auth";
+import {auth, signOut} from "./auth";
 
 const API_ORIGIN = process.env.API_ORIGIN!
 
@@ -123,4 +123,8 @@ export async function deleteSubtopic(id: string) {
 		throw new Error(data.message);
 	}
 	redirect("/");
+}
+
+export async function callSignOut(){
+	await signOut();
 }

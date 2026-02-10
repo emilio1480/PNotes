@@ -1,15 +1,14 @@
-import { signOut } from "@/auth";
+import { callSignOut } from "@/actions";
 
 export default function LogoutButton() {
 	return (
 		<button
 			onClick={async () => {
-				"use server"
-				await signOut();
+				await callSignOut();
 			}}
-			className={"fixed top-4 right-2 z-10 w-25 rounded-lg bg-red-400 font-[500] text-white transition-all ease-out hover:cursor-pointer hover:bg-red-500"}
+			className={"hover:text-quaternary z-10 w-max px-4 py-1.5 text-[1.08rem] font-[500] text-gray-700 hover:cursor-pointer"}
 		>
-			Log out
+			Sign out
 		</button>
 	);
 }
