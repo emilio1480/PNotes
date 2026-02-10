@@ -4,8 +4,11 @@ import { Editor } from "@tiptap/core";
 import Tool from "@/app/components/tool";
 import { useEditorState } from "@tiptap/react";
 import { Level } from "@tiptap/extension-heading";
+import { useState } from "react";
+import LogoutButton from "@/app/components/logoutButton";
+import { Menu } from "lucide-react";
 
-export default function Toolbar({ editor }: Readonly<{ editor: Editor }>) {
+export default function Toolbar({ editor, isToolbarVisible }: Readonly<{ editor: Editor; isToolbarVisible: boolean }>) {
 	const editorState = useEditorState({
 		editor,
 		selector: (ctx) => ({
@@ -33,26 +36,42 @@ export default function Toolbar({ editor }: Readonly<{ editor: Editor }>) {
 	if (!editor) return null;
 
 	return (
-		<div className={`ease-in-out1 mb-6 border-b border-gray-100 pb-4 transition-all duration-300 pt-2`}>
-			<div className="mb-4 flex flex-wrap justify-center gap-2">
+		<div className={`mt-1 ${isToolbarVisible ? "" : "hidden"}`}>
+			<div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
 				<Tool onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editorState.canBold} isActive={editorState.isBold} name="Bold" />
 				<Tool onClick={() => editor.chain().focus().toggleItalic().run()} disabled={!editorState.canItalic} isActive={editorState.isItalic} name="Italic" />
 				<Tool onClick={() => editor.chain().focus().unsetAllMarks().run()} disabled={!editorState.canClearMarks} isActive={false} name="Reset" />
 
 				<Tool onClick={() => editor.chain().focus().setParagraph().run()} disabled={false} isActive={editorState.isParagraph} name="Paragraf" />
-				<Tool key={3} onClick={() => editor.chain().focus().toggleHeading({level:3}).run()} disabled={false} isActive={editorState[`isHeading3` as keyof typeof editorState]} name={`Nentitull`} />
+				<Tool key={3} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} disabled={false} isActive={editorState[`isHeading3` as keyof typeof editorState]} name={`Nëntitull`} />
 
-				<Tool onClick={() => editor.chain().focus().toggleBulletList().run()} disabled={false} isActive={editorState.isBulletList} name="List e parenditur" />
-				<Tool onClick={() => editor.chain().focus().toggleOrderedList().run()} disabled={false} isActive={editorState.isOrderedList} name="List e renditur" />
+				<Tool onClick={() => editor.chain().focus().toggleBulletList().run()} disabled={false} isActive={editorState.isBulletList} name="Listë e parenditur" />
+				<Tool onClick={() => editor.chain().focus().toggleOrderedList().run()} disabled={false} isActive={editorState.isOrderedList} name="Listë e renditur" />
 				<Tool onClick={() => editor.chain().focus().toggleBlockquote().run()} disabled={false} isActive={editorState.isBlockquote} name="Citim" />
 				<Tool onClick={() => editor.chain().focus().setHorizontalRule().run()} disabled={false} isActive={false} name="Ndarje horizontale" />
 			</div>
 
 			{/* Table Operations */}
-			<div className="mb-4 flex flex-wrap justify-center gap-2">
-				<Tool onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} disabled={false} isActive={false} name="Shto tabelë" />
+			<div className="my-1 flex flex-wrap justify-center gap-x-2 gap-y-1">
+				<Tool
+					onClick={() =>
+						editor
+							.chain()
+							.focus()
+							.insertTable({
+								rows: 3,
+								cols: 3,
+								withHeaderRow: true,
+							})
+							.run()
+					}
+					disabled={false}
+					isActive={false}
+					name="Shto tabelë"
+				/>
 				{editorState.isTable && (
-					<><Tool onClick={() => editor.chain().focus().addColumnBefore().run()} disabled={false} isActive={false} name="Shto kolonë para" />
+					<>
+						<Tool onClick={() => editor.chain().focus().addColumnBefore().run()} disabled={false} isActive={false} name="Shto kolonë para" />
 						<Tool onClick={() => editor.chain().focus().addColumnAfter().run()} disabled={false} isActive={false} name="Shto kolonë pas" />
 						<Tool onClick={() => editor.chain().focus().deleteColumn().run()} disabled={false} isActive={false} name="Fshi kolonën" />
 						<Tool onClick={() => editor.chain().focus().addRowBefore().run()} disabled={false} isActive={false} name="Shto rresht para" />
@@ -69,7 +88,7 @@ export default function Toolbar({ editor }: Readonly<{ editor: Editor }>) {
 			</div>
 
 			{/* Undo/Redo */}
-			<div className="flex flex-wrap justify-center gap-2">
+			<div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
 				<Tool onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo} isActive={false} name="Zhbëj" />
 				<Tool onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo} isActive={false} name="Ribëj" />
 			</div>
