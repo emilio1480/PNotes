@@ -14,7 +14,7 @@ export default function Navbar({editor}: Readonly<{ editor: Editor }>) {
                         className="hover:cursor-pointer px-3 py-2  h-1/2 text-gray-700  rounded-md hover:bg-gray-200 transition-colors">
                     <Menu size={24}/>
                 </button>
-                <div className={"pl-10"}>
+                <div className={"pl-11.5"}>
                     <Toolbar editor={editor} isToolbarVisible={isToolbarVisible}/>
                 </div>
             <div>
