@@ -6,7 +6,7 @@ export default function LogoutButton() {
 			onClick={async () => {
 				await callSignOut();
 			}}
-			className={"hover:text-quaternary z-10 w-max px-4 py-1.5 text-[1.08rem] font-[500] text-gray-700 hover:cursor-pointer"}
+			className={"z-10 w-max px-4 py-1.5 text-[1.08rem] font-[500] text-gray-700 hover:cursor-pointer hover:text-[#112d5f]"}
 		>
 			Sign out
 		</button>

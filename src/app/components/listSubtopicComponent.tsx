@@ -22,7 +22,7 @@ export default function ListSubtopicComponent({
 	return (
 		<div className={`transition-color flex w-max max-w-[20vw] cursor-pointer items-center gap-1 rounded p-2`} style={{ paddingLeft: `${depth * 1.1}rem` }}>
 			<DropdownButton hasKids={hasKids} isExpanded={isExpanded} />
-			<span className={` ${listSubtopic.parentId == 0 ? "font-[600]" : ""} hover:text-quaternary`} onClick={() => router.push(`/${listSubtopic.id}`)}>
+			<span className={` ${listSubtopic.parentId == 0 ? "font-[600]" : ""} hover:text-[#112d5f]`} onClick={() => router.push(`/${listSubtopic.id}`)}>
 				{listSubtopic.title}
 			</span>
 		</div>
