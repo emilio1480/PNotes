@@ -75,7 +75,7 @@ export default function SideMenu({
 			<AddSubtopicButton
 				id={null}
 				className={"z-10 w-full bg-gray-300 p-2 text-gray-700 transition-all ease-out hover:cursor-pointer hover:bg-gray-600 hover:text-gray-100"}
-				text={isCollapse ? undefined : "Add a topic"}
+				text={isCollapse ? undefined : "Add a note"}
 			/>
 		</div>
 	);

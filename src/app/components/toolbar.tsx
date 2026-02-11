@@ -42,13 +42,20 @@ export default function Toolbar({ editor, isToolbarVisible }: Readonly<{ editor:
 				<Tool onClick={() => editor.chain().focus().toggleItalic().run()} disabled={!editorState.canItalic} isActive={editorState.isItalic} name="Italic" />
 				<Tool onClick={() => editor.chain().focus().unsetAllMarks().run()} disabled={!editorState.canClearMarks} isActive={false} name="Reset" />
 
-				<Tool onClick={() => editor.chain().focus().setParagraph().run()} disabled={false} isActive={editorState.isParagraph} name="Paragraf" />
-				<Tool key={3} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} disabled={false} isActive={editorState[`isHeading3` as keyof typeof editorState]} name={`Nëntitull`} />
+				<Tool onClick={() => editor.chain().focus().setParagraph().run()} disabled={false} isActive={editorState.isParagraph} name="Paragraph" />
+				<Tool
+					key={3}
+					onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+					disabled={false}
+					isActive={editorState[`isHeading3` as keyof typeof editorState]}
+					name={`Subheading`}
+				/>
 
-				<Tool onClick={() => editor.chain().focus().toggleBulletList().run()} disabled={false} isActive={editorState.isBulletList} name="Listë e parenditur" />
-				<Tool onClick={() => editor.chain().focus().toggleOrderedList().run()} disabled={false} isActive={editorState.isOrderedList} name="Listë e renditur" />
-				<Tool onClick={() => editor.chain().focus().toggleBlockquote().run()} disabled={false} isActive={editorState.isBlockquote} name="Citim" />
-				<Tool onClick={() => editor.chain().focus().setHorizontalRule().run()} disabled={false} isActive={false} name="Ndarje horizontale" />
+				<Tool onClick={() => editor.chain().focus().toggleBulletList().run()} disabled={false} isActive={editorState.isBulletList} name="Unordered list" />
+				<Tool onClick={() => editor.chain().focus().toggleOrderedList().run()} disabled={false} isActive={editorState.isOrderedList} name="Ordered list" />
+				<Tool onClick={() => editor.chain().focus().toggleBlockquote().run()} disabled={false} isActive={editorState.isBlockquote} name="Citation" />
+				<Tool onClick={() => editor.chain().focus().toggleCode().run()} disabled={false} isActive={editorState.isCode} name="Code block" />
+				<Tool onClick={() => editor.chain().focus().setHorizontalRule().run()} disabled={false} isActive={false} name="Horizontal rule" />
 			</div>
 
 			{/* Table Operations */}
@@ -67,30 +74,30 @@ export default function Toolbar({ editor, isToolbarVisible }: Readonly<{ editor:
 					}
 					disabled={false}
 					isActive={false}
-					name="Shto tabelë"
+					name="Add table"
 				/>
 				{editorState.isTable && (
 					<>
-						<Tool onClick={() => editor.chain().focus().addColumnBefore().run()} disabled={false} isActive={false} name="Shto kolonë para" />
-						<Tool onClick={() => editor.chain().focus().addColumnAfter().run()} disabled={false} isActive={false} name="Shto kolonë pas" />
-						<Tool onClick={() => editor.chain().focus().deleteColumn().run()} disabled={false} isActive={false} name="Fshi kolonën" />
-						<Tool onClick={() => editor.chain().focus().addRowBefore().run()} disabled={false} isActive={false} name="Shto rresht para" />
-						<Tool onClick={() => editor.chain().focus().addRowAfter().run()} disabled={false} isActive={false} name="Shto rresht pas" />
-						<Tool onClick={() => editor.chain().focus().deleteRow().run()} disabled={false} isActive={false} name="Fshi rreshtin" />
-						<Tool onClick={() => editor.chain().focus().deleteTable().run()} disabled={false} isActive={false} name="Fshi tabelën" />
-						<Tool onClick={() => editor.chain().focus().mergeCells().run()} disabled={false} isActive={false} name="Bashko qelizat" />
-						<Tool onClick={() => editor.chain().focus().splitCell().run()} disabled={false} isActive={false} name="Ndaj qelizën" />
-						<Tool onClick={() => editor.chain().focus().toggleHeaderColumn().run()} disabled={false} isActive={false} name="Thekso kolonën e parë" />
-						<Tool onClick={() => editor.chain().focus().toggleHeaderRow().run()} disabled={false} isActive={false} name="Thekso rreshtin e parë" />
-						<Tool onClick={() => editor.chain().focus().toggleHeaderCell().run()} disabled={false} isActive={false} name="Thekso qelizën" />
+						<Tool onClick={() => editor.chain().focus().addColumnBefore().run()} disabled={false} isActive={false} name="Add column before" />
+						<Tool onClick={() => editor.chain().focus().addColumnAfter().run()} disabled={false} isActive={false} name="Add column after" />
+						<Tool onClick={() => editor.chain().focus().deleteColumn().run()} disabled={false} isActive={false} name="Delete column" />
+						<Tool onClick={() => editor.chain().focus().addRowBefore().run()} disabled={false} isActive={false} name="Add row before" />
+						<Tool onClick={() => editor.chain().focus().addRowAfter().run()} disabled={false} isActive={false} name="Add row after" />
+						<Tool onClick={() => editor.chain().focus().deleteRow().run()} disabled={false} isActive={false} name="Delete row" />
+						<Tool onClick={() => editor.chain().focus().deleteTable().run()} disabled={false} isActive={false} name="Delete table" />
+						<Tool onClick={() => editor.chain().focus().mergeCells().run()} disabled={false} isActive={false} name="Merge cells" />
+						<Tool onClick={() => editor.chain().focus().splitCell().run()} disabled={false} isActive={false} name="Split cell" />
+						<Tool onClick={() => editor.chain().focus().toggleHeaderColumn().run()} disabled={false} isActive={false} name="Toggle header column" />
+						<Tool onClick={() => editor.chain().focus().toggleHeaderRow().run()} disabled={false} isActive={false} name="Toggle header row" />
+						<Tool onClick={() => editor.chain().focus().toggleHeaderCell().run()} disabled={false} isActive={false} name="Toggle header cell" />
 					</>
 				)}
 			</div>
 
 			{/* Undo/Redo */}
 			<div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
-				<Tool onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo} isActive={false} name="Zhbëj" />
-				<Tool onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo} isActive={false} name="Ribëj" />
+				<Tool onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo} isActive={false} name="Undo" />
+				<Tool onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo} isActive={false} name="Redo" />
 			</div>
 		</div>
 	);
