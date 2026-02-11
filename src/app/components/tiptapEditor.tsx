@@ -9,7 +9,7 @@ import {Table} from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
-import {Toaster} from "react-hot-toast";
+import {Toaster} from "sonner";
 import ActionButtons from "@/app/components/actionButtons";
 import Navbar from "@/app/components/navbar";
 
@@ -75,7 +75,7 @@ export default function TipTapEditor({
 
     return (
         <div className={"h-[100vh]"}>
-            <Toaster/>
+            <Toaster expand={false} visibleToasts={1}/>
             <Navbar editor={editor}/>
             <form action={handleSubmit}>
                 <input
