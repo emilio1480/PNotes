@@ -46,7 +46,7 @@ export default function SideMenu({
 		return (
 			<div
 				key={listSubtopic.id}
-				className="mb-1"
+				className="w-max"
 				onClick={(e) => {
 					e.stopPropagation();
 					toggleListSubtopic(listSubtopic.id);
@@ -63,9 +63,9 @@ export default function SideMenu({
 
 	return (
 		<div className={`flex h-screen flex-col justify-between bg-gray-100 ${className}`}>
-			<div className="p-4">
-				<div className={`flex justify-start ${isCollapse ? "space-x-0" : "space-x-3"} mb-4 items-center`}>
-					<h2 className="text-lg font-semibold text-gray-800">{!isCollapse && "Menu"}</h2>
+			<div className={`mt-2 px-4 pb-4 ${isCollapse ? "" : "pr-8"}`}>
+				<div className={`flex h-8 justify-between ${isCollapse ? "space-x-0" : "space-x-3"} mb-4 items-center`}>
+					<h2 className="text-lg font-[500] text-gray-800">{!isCollapse && "Menu"}</h2>
 					<button className={"h-max w-max hover:cursor-pointer hover:text-gray-500"} onClick={() => setIsCollapse(!isCollapse)}>
 						{isCollapse ? <MoveRight /> : <MoveLeft />}
 					</button>
