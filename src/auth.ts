@@ -1,9 +1,28 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
+import { Provider } from "next-auth/providers";
+
+
+const providers: Provider[] = [Google({ authorization: { params: { access_type: "offline", prompt: "consent" } } })];
+
+export const providerMap = providers
+	.map((provider) => {
+		if (typeof provider === "function") {
+			const providerData = provider()
+			return { id: providerData.id, name: providerData.name }
+		} else {
+			return { id: provider.id, name: provider.name }
+		}
+	})
+	.filter((provider) => provider.id !== "credentials")
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	basePath: "/api/auth",
-	providers: [Google({authorization: {params: {access_type: "offline", prompt: "consent"}}})],
+	providers: providers,
+	trustHost: true,
+	pages: {
+		signIn: "/signIn"
+	},
 	callbacks: {
 		authorized: async ({ auth }) => {
 			// Logged in users are authenticated, otherwise redirect to login page
