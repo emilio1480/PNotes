@@ -1,46 +1,51 @@
-import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
 import { Provider } from "next-auth/providers";
-
 
 const providers: Provider[] = [Google({ authorization: { params: { access_type: "offline", prompt: "consent" } } })];
 
 export const providerMap = providers
 	.map((provider) => {
 		if (typeof provider === "function") {
-			const providerData = provider()
-			return { id: providerData.id, name: providerData.name }
+			const providerData = provider();
+			return { id: providerData.id, name: providerData.name };
 		} else {
-			return { id: provider.id, name: provider.name }
+			return { id: provider.id, name: provider.name };
 		}
 	})
-	.filter((provider) => provider.id !== "credentials")
+	.filter((provider) => provider.id !== "credentials");
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	basePath: "/api/auth",
 	providers: providers,
 	trustHost: true,
 	pages: {
-		signIn: "/signIn"
+		signIn: "/signIn",
 	},
 	callbacks: {
-		authorized: async ({ auth }) => {
+		authorized: async ({ auth, request }) => {
 			// Logged in users are authenticated, otherwise redirect to login page
+			const { pathname } = request.nextUrl;
+
+			if (pathname.startsWith("/api/auth") || pathname.startsWith("/_next") || pathname.includes(".")) {
+				return true;
+			}
+
 			return !!auth;
 		},
-		jwt: async({ token, account }) => {
-			if(account){
+		jwt: async ({ token, account }) => {
+			if (account) {
 				return {
 					...token,
 					access_token: account.access_token,
 					id_token: account.id_token,
 					expires_at: account.expires_at,
-					refresh_token: account.refresh_token
-				}
-			}else if(Date.now() < token.expires_at! * 1000){
+					refresh_token: account.refresh_token,
+				};
+			} else if (Date.now() < token.expires_at! * 1000) {
 				return token;
-			}else{
-				if(!token.refresh_token) throw new TypeError("Missing refresh_token");
+			} else {
+				if (!token.refresh_token) throw new TypeError("Missing refresh_token");
 
 				try {
 					const response = await fetch("https://oauth2.googleapis.com/token", {
@@ -79,8 +84,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				}
 			}
 		},
-		session: async({session, token}) => {
-			return {...session, id_token: token.id_token, error: token.error}
-		}
+		session: async ({ session, token }) => {
+			return { ...session, id_token: token.id_token, error: token.error };
+		},
 	},
 });
