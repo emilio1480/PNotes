@@ -1,44 +1,37 @@
 "use server";
 import { redirect } from "next/navigation";
-import {auth, signOut} from "./auth";
+import { auth, signOut } from "./auth";
 
-const API_ORIGIN = process.env.API_ORIGIN!
+const API_ORIGIN = process.env.API_ORIGIN!;
 
 async function secureRequest(endpoint: string, options: RequestInit = {}) {
 	const session = await auth();
-try{
-	return await fetch(`${API_ORIGIN}${endpoint}`, {
-		...options,
-		headers: { Authorization: `Bearer ${session?.id_token}`, "Content-Type": "application/json"},
-	});
-}catch {
-	return new Response('"message": "Fetch didn\'t go through"', {status: 500});
+	try {
+		return await fetch(`${API_ORIGIN}${endpoint}`, {
+			...options,
+			headers: { Authorization: `Bearer ${session?.id_token}`, "Content-Type": "application/json" },
+		});
+	} catch {
+		return new Response('"message": "Fetch didn\'t go through"', { status: 500 });
 	}
 }
 
 export async function getSubtopic(id: string) {
-	const res = await secureRequest(
-		`/subtopics/${id}`,
-		{
-			cache: "no-store",
-		},
-	);
-	const data = await res.json();
+	const res = await secureRequest(`/subtopics/${id}`, {
+		cache: "no-store",
+	});
 
 	if (!res.ok) {
-		throw new Error(data.message);
+		redirect("/");
 	}
 
-	return data;
+	return await res.json();
 }
 
 export async function getSubtopics() {
-	const res = await secureRequest(
-		"/subtopics",
-		{
-			cache: "no-store",
-		},
-	);
+	const res = await secureRequest("/subtopics", {
+		cache: "no-store",
+	});
 
 	if (!res.ok) {
 		return null;
@@ -48,16 +41,13 @@ export async function getSubtopics() {
 }
 
 export async function addSubtopic(formData: FormData) {
-	const res = await secureRequest(
-		`/subtopics/${formData.get("id")}`,
-		{
-			method: "POST",
-			body: JSON.stringify({
-				title: formData.get("title"),
-				content: formData.get("content"),
-			}),
-		},
-	);
+	const res = await secureRequest(`/subtopics/${formData.get("id")}`, {
+		method: "POST",
+		body: JSON.stringify({
+			title: formData.get("title"),
+			content: formData.get("content"),
+		}),
+	});
 
 	if (!res.ok) {
 		const data = await res.json();
@@ -72,16 +62,13 @@ export async function addSubtopic(formData: FormData) {
 export async function updateSubtopic(formData: FormData) {
 	const id = formData.get("id");
 
-	const res = await secureRequest(
-		`/subtopics/${id}`,
-		{
-			method: "PATCH",
-			body: JSON.stringify({
-				title: formData.get("title"),
-				content: formData.get("content"),
-			}),
-		}
-	);
+	const res = await secureRequest(`/subtopics/${id}`, {
+		method: "PATCH",
+		body: JSON.stringify({
+			title: formData.get("title"),
+			content: formData.get("content"),
+		}),
+	});
 
 	if (!res.ok) {
 		const data = await res.json();
@@ -90,16 +77,13 @@ export async function updateSubtopic(formData: FormData) {
 }
 
 export async function addRootSubtopic(formData: FormData) {
-	const res = await secureRequest(
-		`/subtopics`,
-		{
-			method: "POST",
-			body: JSON.stringify({
-				title: formData.get("title"),
-				content: formData.get("content"),
-			}),
-		},
-	);
+	const res = await secureRequest(`/subtopics`, {
+		method: "POST",
+		body: JSON.stringify({
+			title: formData.get("title"),
+			content: formData.get("content"),
+		}),
+	});
 
 	if (!res.ok) {
 		const data = await res.json();
@@ -111,12 +95,9 @@ export async function addRootSubtopic(formData: FormData) {
 }
 
 export async function deleteSubtopic(id: string) {
-	const res = await secureRequest(
-		`/subtopics/${id}`,
-		{
-			method: "DELETE",
-		},
-	);
+	const res = await secureRequest(`/subtopics/${id}`, {
+		method: "DELETE",
+	});
 
 	if (!res.ok) {
 		const data = await res.json();
@@ -125,6 +106,6 @@ export async function deleteSubtopic(id: string) {
 	redirect("/");
 }
 
-export async function callSignOut(){
-	await signOut();
+export async function callSignOut() {
+	await signOut({ redirectTo: "/" });
 }
