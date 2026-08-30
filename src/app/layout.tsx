@@ -3,11 +3,13 @@ import "./globals.css";
 import SideMenu from "@/app/components/sideMenu";
 import { getSubtopics } from "@/actions";
 import { ListSubtopic } from "@/types";
+import { dummyListSubtopics } from "@/dummyData";
 
 const quicksand = Quicksand({ weight: "variable", subsets: ["latin"] });
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-	const subtopics: ListSubtopic[] | null = await getSubtopics();
+
+	const subtopics: ListSubtopic[] | null = process.env.NODE_ENV == "development" ? dummyListSubtopics : await getSubtopics();
 
 	return (
 		<html lang="en" className={"h-full overflow-hidden"}>

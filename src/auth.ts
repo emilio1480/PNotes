@@ -24,6 +24,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	},
 	callbacks: {
 		authorized: async ({ auth, request }) => {
+			if(process.env.NODE_ENV == "development"){
+				return true;
+			}
 			// Logged in users are authenticated, otherwise redirect to login page
 			const { pathname } = request.nextUrl;
 
