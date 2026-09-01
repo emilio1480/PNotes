@@ -6,13 +6,15 @@ export default function AddSubtopicButton({
 	id,
 	className,
 	text,
+	ariaLabel,
 }: Readonly<{
 	id: string | null;
 	text?: string;
 	className?: string;
+	ariaLabel?: string;
 }>) {
 	return (
-		<button type={"button"} className={className} onClick={() => redirect(`/${id}/addSubtopic`)}>
+		<button type={"button"} aria-label={ariaLabel} className={className} onClick={() => redirect(`/${id}/addSubtopic`)}>
 			{text || (<Plus className={"mx-auto"}/>)}
 		</button>
 	);
