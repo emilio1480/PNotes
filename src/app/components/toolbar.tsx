@@ -3,10 +3,6 @@
 import { Editor } from "@tiptap/core";
 import Tool from "@/app/components/tool";
 import { useEditorState } from "@tiptap/react";
-import { Level } from "@tiptap/extension-heading";
-import { useState } from "react";
-import LogoutButton from "@/app/components/logoutButton";
-import { Menu } from "lucide-react";
 
 export default function Toolbar({ editor, isToolbarVisible }: Readonly<{ editor: Editor; isToolbarVisible: boolean }>) {
 	const editorState = useEditorState({
@@ -36,8 +32,8 @@ export default function Toolbar({ editor, isToolbarVisible }: Readonly<{ editor:
 	if (!editor) return null;
 
 	return (
-		<div className={`mt-1 ${isToolbarVisible ? "" : "hidden"}`}>
-			<div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
+		<div className={`mt-1 max-h-[36svh] overflow-y-auto pr-1 md:max-h-none ${isToolbarVisible ? "" : "hidden"}`}>
+			<div className="flex flex-wrap justify-center gap-x-1 gap-y-1 sm:gap-x-2">
 				<Tool onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editorState.canBold} isActive={editorState.isBold} name="Bold" />
 				<Tool onClick={() => editor.chain().focus().toggleItalic().run()} disabled={!editorState.canItalic} isActive={editorState.isItalic} name="Italic" />
 				<Tool onClick={() => editor.chain().focus().unsetAllMarks().run()} disabled={!editorState.canClearMarks} isActive={false} name="Reset" />
@@ -59,7 +55,7 @@ export default function Toolbar({ editor, isToolbarVisible }: Readonly<{ editor:
 			</div>
 
 			{/* Table Operations */}
-			<div className="my-1 flex flex-wrap justify-center gap-x-2 gap-y-1">
+			<div className="my-1 flex flex-wrap justify-center gap-x-1 gap-y-1 sm:gap-x-2">
 				<Tool
 					onClick={() =>
 						editor
@@ -95,7 +91,7 @@ export default function Toolbar({ editor, isToolbarVisible }: Readonly<{ editor:
 			</div>
 
 			{/* Undo/Redo */}
-			<div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
+			<div className="flex flex-wrap justify-center gap-x-1 gap-y-1 sm:gap-x-2">
 				<Tool onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo} isActive={false} name="Undo" />
 				<Tool onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo} isActive={false} name="Redo" />
 			</div>

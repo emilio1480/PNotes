@@ -46,7 +46,7 @@ export default function SideMenu({
 		return (
 			<div
 				key={listSubtopic.id}
-				className="w-max"
+				className="w-full min-w-0"
 				onClick={(e) => {
 					e.stopPropagation();
 					toggleListSubtopic(listSubtopic.id);
@@ -60,13 +60,25 @@ export default function SideMenu({
 	}
 
 	const rootItems = getChildren(null);
+	const expandedClassName = "max-h-[45svh] md:w-72 md:max-w-[32vw]";
+	const collapsedClassName = "max-h-24 md:w-14 md:max-w-14";
 
 	return (
-		<div className={`flex h-screen flex-col justify-between bg-gray-100 ${className}`}>
-			<div className={`mt-2 px-4 pb-4 ${isCollapse ? "" : "pr-8"}`}>
-				<div className={`flex h-8 justify-between ${isCollapse ? "space-x-0" : "space-x-3"} mb-4 items-center`}>
+		<aside
+			className={`flex flex-col justify-between overflow-hidden border-b border-gray-200 bg-gray-100 transition-all md:sticky md:top-0 md:h-svh md:flex-shrink-0 md:max-h-none md:border-r md:border-b-0 ${
+				isCollapse ? collapsedClassName : `${expandedClassName} ${className || ""}`
+			}`}
+		>
+			<div className={`min-h-0 overflow-y-auto px-3 pt-2 pb-4 md:px-4 ${isCollapse ? "" : "md:pr-8"}`}>
+				<div className={`mb-4 flex h-8 items-center ${isCollapse ? "justify-center" : "justify-between space-x-3"}`}>
 					<h2 className="text-lg font-[500] text-gray-800">{!isCollapse && "Menu"}</h2>
-					<button className={"h-max w-max hover:cursor-pointer hover:text-gray-500"} onClick={() => setIsCollapse(!isCollapse)}>
+					<button
+						type="button"
+						aria-label={isCollapse ? "Expand menu" : "Collapse menu"}
+						aria-expanded={!isCollapse}
+						className="h-max w-max rounded p-1 hover:cursor-pointer hover:bg-gray-200 hover:text-gray-500"
+						onClick={() => setIsCollapse((current) => !current)}
+					>
 						{isCollapse ? <MoveRight /> : <MoveLeft />}
 					</button>
 				</div>
@@ -74,9 +86,9 @@ export default function SideMenu({
 			</div>
 			<AddSubtopicButton
 				id={null}
-				className={"z-10 w-full bg-gray-300 p-2 text-gray-700 transition-all ease-out hover:cursor-pointer hover:bg-gray-600 hover:text-gray-100"}
+				className={"z-10 w-full flex-shrink-0 bg-gray-300 p-2 text-gray-700 transition-all ease-out hover:cursor-pointer hover:bg-gray-600 hover:text-gray-100"}
 				text={isCollapse ? undefined : "Add a note"}
 			/>
-		</div>
+		</aside>
 	);
 }

@@ -6,12 +6,37 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.ProseMirror {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    padding-bottom: 1rem;
+}
+
+.ProseMirror p,
+.ProseMirror li,
+.ProseMirror blockquote,
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+    overflow-wrap: anywhere;
+}
+
+.ProseMirror pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
 .ProseMirror table {
     border-collapse: collapse;
     table-layout: fixed;
+    min-width: min(42rem, 100%);
     width: 100%;
     margin: 1em 0;
-    overflow: hidden;
 }
 
 .ProseMirror td,

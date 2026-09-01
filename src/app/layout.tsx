@@ -12,10 +12,12 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 	const subtopics: ListSubtopic[] | null = process.env.NODE_ENV == "development" ? dummyListSubtopics : await getSubtopics();
 
 	return (
-		<html lang="en" className={"h-full overflow-hidden"}>
-			<body className={`${quicksand.className} flex justify-between antialiased`}>
-				{subtopics != null && <SideMenu subtopics={subtopics} className={`w-max max-w-2/9`} />}
-				<div className={`w-full`}>{children}</div>
+		<html lang="en" className={"min-h-full"}>
+			<body className={`${quicksand.className} min-h-svh antialiased`}>
+				<div className="flex min-h-svh flex-col md:flex-row">
+					{subtopics != null && <SideMenu subtopics={subtopics} className="md:w-72 md:max-w-[32vw] md:flex-shrink-0" />}
+					<main className="min-w-0 flex-1">{children}</main>
+				</div>
 			</body>
 		</html>
 	);

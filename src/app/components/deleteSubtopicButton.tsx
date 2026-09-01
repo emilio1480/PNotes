@@ -4,7 +4,7 @@ import { deleteSubtopic } from "@/actions";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 
-export default function DeleteSubtopicButton({ id }: Readonly<{ id: string }>) {
+export default function DeleteSubtopicButton({ id, className }: Readonly<{ id: string; className?: string }>) {
 	const handleClick = () => {
 		toast("Proceed with deletion?", {
 			style: {
@@ -26,7 +26,7 @@ export default function DeleteSubtopicButton({ id }: Readonly<{ id: string }>) {
 	return (
 		<button
 			type={"button"}
-			className={"z-10 w-max rounded-lg bg-gray-300 p-2 font-[500] text-gray-700 transition-all ease-out hover:cursor-pointer hover:bg-gray-600 hover:text-gray-100"}
+			className={className || "z-10 w-max rounded-lg bg-gray-300 p-2 font-[500] text-gray-700 transition-all ease-out hover:cursor-pointer hover:bg-gray-600 hover:text-gray-100"}
 			onClick={handleClick}
 		>
 			<Trash />
