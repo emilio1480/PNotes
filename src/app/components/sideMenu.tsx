@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ListSubtopicComponent from "./listSubtopicComponent";
 import { ListSubtopic } from "@/types";
 import AddSubtopicButton from "@/app/components/addSubtopicButton";
-import { MoveLeft, MoveRight } from "lucide-react";
+import { Menu, MoveLeft, MoveRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 import LogoutButton from "@/app/components/logoutButton";
+import { ToolContext } from "@/app/components/toolBarContext";
 
 export default function SideMenu({
 	className,
@@ -18,6 +19,7 @@ export default function SideMenu({
 	const [isCollapse, setIsCollapse] = useState(false);
 	const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
 	const pathname = usePathname();
+	const { isToolbarVisible, setIsToolbarVisible } = useContext(ToolContext)!;
 
 	const subtopicList: ListSubtopic[] = subtopics;
 
@@ -79,6 +81,12 @@ export default function SideMenu({
 					<div className={`mb-4 flex h-8 items-center ${isCollapse ? "justify-between" : "justify-between space-x-3"}`}>
 						<h2 className="text-lg font-[500] text-gray-800">{!isCollapse && "Menu"}</h2>
 						<div className="flex items-center gap-2">
+							<button
+								onClick={() => setIsToolbarVisible(!isToolbarVisible)}
+								className="h-10 flex-shrink-0 rounded-md px-3 py-2 text-gray-700 transition-colors hover:cursor-pointer hover:bg-gray-200 md:hidden"
+							>
+								<Menu size={24} />
+							</button>
 							<LogoutButton className="z-10 w-max rounded px-2 py-1 text-sm font-[500] text-gray-700 hover:cursor-pointer hover:bg-gray-200 hover:text-[#112d5f] md:hidden" />
 							<button
 								type="button"
