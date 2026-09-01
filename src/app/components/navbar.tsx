@@ -17,7 +17,7 @@ export default function Navbar({editor}: Readonly<{ editor: Editor }>) {
                 <div className="min-w-0 flex-1 md:px-4">
                     <Toolbar editor={editor} isToolbarVisible={isToolbarVisible}/>
                 </div>
-            <div className="flex-shrink-0">
+            <div className="hidden flex-shrink-0 md:block">
                 <LogoutButton/>
             </div>
         </div>

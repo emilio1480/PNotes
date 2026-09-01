@@ -6,6 +6,7 @@ import { ListSubtopic } from "@/types";
 import AddSubtopicButton from "@/app/components/addSubtopicButton";
 import { MoveLeft, MoveRight } from "lucide-react";
 import { usePathname } from "next/navigation";
+import LogoutButton from "@/app/components/logoutButton";
 
 export default function SideMenu({
 	className,
@@ -75,17 +76,20 @@ export default function SideMenu({
 				}`}
 			>
 				<div className={`min-h-0 overflow-y-auto px-3 pt-2 pb-4 md:px-4 ${isCollapse ? "" : "md:pr-8"}`}>
-					<div className={`mb-4 flex h-8 items-center ${isCollapse ? "justify-center" : "justify-between space-x-3"}`}>
+					<div className={`mb-4 flex h-8 items-center ${isCollapse ? "justify-between" : "justify-between space-x-3"}`}>
 						<h2 className="text-lg font-[500] text-gray-800">{!isCollapse && "Menu"}</h2>
-						<button
-							type="button"
-							aria-label={isCollapse ? "Expand menu" : "Collapse menu"}
-							aria-expanded={!isCollapse}
-							className="h-max w-max rounded p-1 hover:cursor-pointer hover:bg-gray-200 hover:text-gray-500"
-							onClick={() => setIsCollapse((current) => !current)}
-						>
-							{isCollapse ? <MoveRight /> : <MoveLeft />}
-						</button>
+						<div className="flex items-center gap-2">
+							<LogoutButton className="z-10 w-max rounded px-2 py-1 text-sm font-[500] text-gray-700 hover:cursor-pointer hover:bg-gray-200 hover:text-[#112d5f] md:hidden" />
+							<button
+								type="button"
+								aria-label={isCollapse ? "Expand menu" : "Collapse menu"}
+								aria-expanded={!isCollapse}
+								className="h-max w-max rounded p-1 hover:cursor-pointer hover:bg-gray-200 hover:text-gray-500"
+								onClick={() => setIsCollapse((current) => !current)}
+							>
+								{isCollapse ? <MoveRight /> : <MoveLeft />}
+							</button>
+						</div>
 					</div>
 					{isCollapse ? null : rootItems.map((item) => renderListSubtopic(item, 0))}
 				</div>
