@@ -9,7 +9,7 @@ export default function DropdownButton({ hasKids, isExpanded }: Readonly<{ hasKi
 					{isExpanded ? <ChevronDown className="hover:text-secondary  h-4 w-4 text-gray-600" /> : <ChevronRight className="hover:text-quaternary h-4 w-4 text-gray-600" />}
 				</button>
 			) : (
-				<Dot className={"text-primary -translate-x-2 -mr-2 min-w-max"}/>
+				<Dot size={'20'} className={"text-primary"}/>
 			)}
 		</>
 	);

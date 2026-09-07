@@ -77,14 +77,15 @@ export default function TipTapEditor({
 		<div className="min-h-svh pb-24 md:pb-0">
 			<Toaster expand={false} visibleToasts={1} />
 			<Navbar editor={editor} />
-			<form action={handleSubmit} className="min-w-0">
-				<input
-					className="mb-4 w-full px-4 text-center text-2xl leading-tight break-words focus:outline-none sm:text-3xl"
+			<form action={handleSubmit} className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+				<textarea
+					className="mb-4 block min-h-[1.25em] w-full flex-shrink-0 resize-none overflow-hidden px-4 text-center text-2xl leading-tight break-words [field-sizing:content] focus:outline-none sm:text-3xl"
 					autoComplete={"off"}
 					name={"title"}
 					onChange={(e) => setNewTitle(e.target.value)}
 					value={newTitle}
 					placeholder={"Add a title"}
+					rows={1}
 				/>
 				<div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
 					<div className="min-w-0 overflow-x-auto pb-6">
