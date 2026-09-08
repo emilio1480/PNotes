@@ -12,7 +12,7 @@ export default function Navbar({editor}: Readonly<{ editor: Editor }>) {
     return (
         <div className="sticky top-[var(--sideMenu-height)] md:top-0 z-20 mb-3 flex flex-wrap items-start bg-white justify-between gap-2 px-2 py-1   shadow-none">
                 <button onClick={() => setIsToolbarVisible(!isToolbarVisible)}
-                        className="hidden md:block h-10 flex-shrink-0 rounded-md px-3 py-2 text-gray-700 transition-colors hover:cursor-pointer hover:bg-gray-200">
+                        className="hidden md:block h-10 flex-shrink-0 rounded-md px-3 py-2 text-gray-700 transition-colors hover:cursor-pointer hover:text-gray-500">
                     <Menu size={24}/>
                 </button>
                 <div className="min-w-0 flex-1 md:px-4">
