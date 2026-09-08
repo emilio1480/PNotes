@@ -24,12 +24,13 @@ export default function DeleteSubtopicButton({ id, className }: Readonly<{ id: s
 	};
 
 	return (
-		<button
-			type={"button"}
-			className={className || "z-10 w-max rounded-lg bg-gray-300 p-2 font-[500] text-gray-700 transition-all ease-out hover:cursor-pointer hover:bg-gray-600 hover:text-gray-100"}
-			onClick={handleClick}
-		>
-			<Trash />
-		</button>
+		<>
+			<button type={"button"} className={`${className} hidden md:block`} onClick={handleClick}>
+				<Trash />
+			</button>
+			<button type={"button"} className={`${className} block md:hidden`} onClick={handleClick}>
+				Delete
+			</button>
+		</>
 	);
 }
